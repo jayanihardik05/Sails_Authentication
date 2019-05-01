@@ -1,0 +1,23 @@
+<h2> Edit Registation</h2>
+<form action="/registation/updatadata/<%=registation.id%>" method="POST">
+    <div class="input-field col s12 l6">
+        <input type="text" id="name" name="name" value="<%=registation.name %>" class="validate">
+        <label for="first_name"> Name</label>
+    </div>
+    <div class="input-field col s12 l6">
+        <input type="text" id="Email" name="Email" value="<%=registation.Email %>" class="validate">
+        <label for="last_name">Email </label>
+    </div>
+    <div class="input-field col s12">
+        <input type="text" id="Phone" name="phone" value="<%=registation.phone %>" class="validate">
+        <label for="email" data-error="wrong" data-success="right">Phone</label>
+    </div>
+    <div class="input-field col s12">
+        <input type="text" id="Phone" name="city" value="<%=registation.city %>" class="validate">
+        <label for="city" data-error="wrong" data-success="right">City</label>
+    </div>
+    <div>
+        <button class="btn waves-effect waves-light" type="submit">Submit
+        </button>
+    </div>
+</form>

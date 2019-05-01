@@ -1,0 +1,74 @@
+<button type="text" class="btn waves-effect waves-light" id="logout" style="float: right">Logout</button>
+<h2> All Registation</h2>
+
+<form action="/registation/add" method="POST">
+    <div class="input-field col s12 l6">
+        <input type="text" id="name" name="name" class="validate">
+        <label for="first_name"> Name</label>
+    </div>
+    <div class="input-field col s12 l6">
+        <input type="text" id="Email" name="Email" class="validate">
+        <label for="last_name">Email </label>
+    </div>
+    <div class="input-field col s12">
+        <input type="text" id="Phone" name="phone" class="validate">
+        <label for="email" data-error="wrong" data-success="right">Phone</label>
+    </div>
+    <div class="input-field col s12">
+        <input type="text" id="Phone" name="city" class="validate">
+        <label for="city" data-error="wrong" data-success="right">City</label>
+    </div>
+    <div>
+        <button class="btn waves-effect waves-light" type="submit">Submit
+        </button>
+    </div>
+</form>
+<table class="striped">
+    <thead>
+        <tr>
+            <th data-field="id">Name</th>
+            <th data-field="name">Email</th>
+            <th data-field="price">Phone</th>
+            <th data-field="price">City</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% registation.forEach(function(item){%>
+            <tr>
+                <td>
+                    <%= item.name %>
+                </td>
+                <td>
+                    <%= item.Email %>
+                </td>
+                <td>
+                    <%= item.phone %>
+                </td>
+                <td>
+                    <%= item.city %>
+                </td>
+                <td>
+                    <a href="/registation/editdata/<%= item.id %>">Edit</a>|
+                    <a href="/registation/delete/<%= item.id %>">Delete</a>
+                </td>
+            </tr>
+            <%}) %>
+
+
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', "#logout", function onLogout(e) {
+            console.log("logout")
+            e.preventDefault()
+            window.location = '/'
+        })
+
+    })
+</script>

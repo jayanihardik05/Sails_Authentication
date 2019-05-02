@@ -3,25 +3,80 @@
 
 <form>
     <div class="input-field col s12 ">
-        <input type="text" id="name" name="name" class="validate">
+        <input type="text" id="name" class="validate">
         <label for="first_name"> Name</label>
     </div>
     <div class="input-field col s12 ">
-        <input type="text" id="Email" name="Email" class="validate">
+        <input type="text" id="email" class="validate">
         <label for="last_name">Email </label>
     </div>
     <div class="input-field col s12 ">
-        <input type="password" id="password" name="password" class="validate">
+        <input type="password" id="password" class="validate">
         <label for="last_name">Password </label>
     </div>
     <div class="input-field col s12 ">
-        <input type="password" id="password" name="password" class="validate">
+        <input type="password" id="Confirmpassword" class="validate">
         <label for="last_name">Confirm password </label>
     </div>
-   
+
     <div>
-        <button class="btn waves-effect waves-light" href="/signup" type="submit">Submit
+        <button class="btn waves-effect waves-light" id="submitLogin" type="submit">Submit
         </button>
     </div>
 </form>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#submitLogin").click(function (event) {
+            event.preventDefault();
+            signup();
+        });
+
+        signup = function () {
+            if (!$('#name').val()) {
+                return $.notify('Enter Name', { type: 'danger' });
+            }
+            if (!$('#email').val()) {
+                return $.notify('Enter email', { type: 'danger' });
+            }
+
+            if (!$('#password').val()) {
+                return $.notify('Enter password', { type: 'danger' });
+            }
+
+            if (!$('#Confirmpassword').val()) {
+                return $.notify('Enter Confirm password', { type: 'danger' });
+            }
+            if ($('#password').val() !== $('#Confirmpassword').val()) {
+                return $.notify('Passwords are not matching.', 'error');
+
+            }
+            $.ajax('/signup/add', {
+                method: 'POST',
+                contentType: 'application/json',
+                processData: false,
+                data: JSON.stringify({
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    password: $('#password').val(),
+                    Confirmpassword: $('#Confirmpassword').val()
+                }),
+                success: function (result) {
+                    if (result.ResponseStatus === 0) {
+                        window.location = '/'
+                    } else {
+                        $.notify(result.message);
+                    }
+
+                },
+
+            })
+        }
+    })
+
+</script>

@@ -10,6 +10,14 @@
 
 module.exports.policies = {
 
+
+  RegistationController: {
+    // adddata: "auth",
+    // deletedata: "auth",
+    // editdata: "auth",
+    // updatedata: "auth"
+  }
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions, unless overridden.       *

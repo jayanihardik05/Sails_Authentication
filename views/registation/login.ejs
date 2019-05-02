@@ -1,16 +1,16 @@
 <a type="text" class="btn waves-effect waves-light" href="/signup" style="float: right">Signup</a>
 <h2> Sign In</h2>
-<form action="/registation/login" method="POST">
+<form>
     <div class="input-field col s12 ">
-        <input type="text" id="Email" name="Email" class="validate">
+        <input type="text" id="email" class="validate">
         <label for="last_name">Email </label>
     </div>
     <div class="input-field col s12 ">
-        <input type="text" id="Password" name="Password" class="validate">
+        <input type="Password" id="password" class="validate">
         <label for="Password" data-error="wrong" data-success="right">password</label>
     </div>
     <div>
-        <button class="btn waves-effect waves-light" onclick="" type="submit">Submit
+        <button class="btn waves-effect waves-light" id="login" type="submit">Submit
         </button>
     </div>
 </form>
@@ -19,7 +19,56 @@
     <a href="/forgetPassword">Forget Password </a>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+
 <script>
+    $(document).ready(function () {
+        const token = localStorage.getItem("token")
+        if (token) window.location = "/registation/listdata"
+        $("#login").click(function (event) {
+            event.preventDefault();
+            login();
+        });
+
+        login = function () {
+
+            if (!$('#email').val()) {
+                return $.notify('Enter email', { type: 'danger' });
+            }
+
+            if (!$('#password').val()) {
+                return $.notify('Enter password', { type: 'danger' });
+            }
+
+            $.ajax('/login/add', {
+                method: 'POST',
+                contentType: 'application/json',
+                processData: false,
+                data: JSON.stringify({
+                    email: $('#email').val(),
+                    password: $('#password').val(),
+                }),
+                success: function (result) {
+                    if (result.ResponseStatus === 0) {
+                        $.notify(result.message, "success");
+                       
+                        var token2 = `Bearer ${result.token}`;
+                        localStorage.setItem("token", token2);
+                        setTimeout(() => {
+                            window.location = '/registation/listdata'
+                        }, 1000);
+                    } else {
+                        $.notify(result.message, "error");
+                    }
+
+                },
+
+            })
+        }
+    })
 
 </script>

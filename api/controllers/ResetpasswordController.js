@@ -1,35 +1,33 @@
+"use strict";
 const nodemailer = require("nodemailer");
 
 module.exports = {
-    emailSend: (req, res) => {
-        "use strict";
-        const nodemailer = require("nodemailer");
-        async function main() {
-            let testAccount = await nodemailer.createTestAccount();
-            let transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                port: 465,
-                auth: {
-                    user: 'techlession@gmail.com',
-                    pass: 'Techlession@#123'
-                }
-            });
-            let info = await transporter.sendMail({
-                to: req.body.to,
-                subject: "Hello ✔",
-                text: "Hello world?",
-                html: "<b>Hello world?</b>"
-            });
-            transporter.verify(function (error, success) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log("Sucesfull");
-                }
-            });
-        }
-        main().catch(console.error);
-
+    emailSend: async (req, res) => {
+        const getUser = await user.findOne({ email: req.body.email });
+        if (!getUser)
+            return res.status(200).send({ status: false, message: "Email is Not Found" })
+        let testAccount = await nodemailer.createTestAccount();
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            auth: {
+                user: 'techlession@gmail.com',
+                pass: 'Techlession@#123'
+            }
+        });
+        let info = await transporter.sendMail({
+            to: req.body.email,
+            subject: "Forget_Password",
+            html: "<b>Link is </b>"
+        });
+        transporter.verify(function (error, success) {
+            if (error) {
+                return res.status(200).send({ status: false, message: "Email is Not Found" })
+            } else {
+                return res.status(200).send({ status: true, message: "Forget password link send in your Email" })
+            }
+        });
     }
+
 }
 

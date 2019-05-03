@@ -10,10 +10,8 @@ module.exports = {
         },
         password: {
             type: 'string'
-        },
-        Confirmpassword: {
-            type: 'string'
         }
+
     },
     datastore: 'mongodb',
 };

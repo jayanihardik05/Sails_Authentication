@@ -1,23 +1,80 @@
 <h2> Edit Registation</h2>
-<form action="/registation/updatadata/<%=registation.id%>" method="POST">
+<form>
     <div class="input-field col s12 l6">
-        <input type="text" id="name" name="name" value="<%=registation.name %>" class="validate">
+        <input type="text" id="name" value="<%=registation.name %>" class="validate">
         <label for="first_name"> Name</label>
     </div>
     <div class="input-field col s12 l6">
-        <input type="text" id="Email" name="Email" value="<%=registation.Email %>" class="validate">
-        <label for="last_name">Email </label>
+        <input type="text" id="address" value="<%=registation.address %>" class="validate">
+        <label for="last_name">Address </label>
     </div>
     <div class="input-field col s12">
-        <input type="text" id="Phone" name="phone" value="<%=registation.phone %>" class="validate">
+        <input type="number" id="Phone" value="<%=registation.Phone %>" class="validate">
         <label for="email" data-error="wrong" data-success="right">Phone</label>
     </div>
     <div class="input-field col s12">
-        <input type="text" id="Phone" name="city" value="<%=registation.city %>" class="validate">
+        <input type="text" id="city" value="<%=registation.city %>" class="validate">
         <label for="city" data-error="wrong" data-success="right">City</label>
     </div>
     <div>
-        <button class="btn waves-effect waves-light" type="submit">Submit
+        <button class="btn waves-effect waves-light" onclick="updatesubmit(event, `<%=registation.id%>`)" type="submit">Submit
         </button>
     </div>
 </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+
+<script>
+    function setAuthenticationHeader() {
+        const token = localStorage.getItem('token');
+        return { 'Authorization': token }
+    }
+    $(document).ready(function () {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/';
+        } else {
+            $("#divregistation").show();
+        }
+    })
+
+    function updatesubmit(event, id) {
+        event.preventDefault();
+        if (!$('#name').val()) {
+            return $.notify('Enter Name', { type: 'danger' });
+        }
+        if (!$('#address').val()) {
+            return $.notify('Enter address', { type: 'danger' });
+        }
+
+        if (!$('#Phone').val()) {
+            return $.notify('Enter Phone', { type: 'danger' });
+        }
+
+        if (!$('#city').val()) {
+            return $.notify('Enter city', { type: 'danger' });
+        }
+        $.ajax(`/registation/updatadata/${id}`, {
+            method: 'POST',
+            contentType: 'application/json',
+            headers: setAuthenticationHeader(),
+            data: JSON.stringify({
+                name: $('#name').val(),
+                address: $('#address').val(),
+                Phone: $('#Phone').val(),
+                city: $('#city').val()
+            }),
+            success: function (result) {
+                console.log(result);
+                $.notify("update Sucesfull", "success");
+                setTimeout(() => {
+                    window.location.href = ' /registation/listdata';
+                }, 1000);
+            },
+
+        })
+    }
+</script>

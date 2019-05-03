@@ -30,8 +30,7 @@ module.exports = {
                         var data = {
                             name: req.body.name,
                             email: req.body.email,
-                            password: hash,
-                            Confirmpassword: hash
+                            password: hash
                         };
                         user.create(data).then(results => {
                             return res.status(200).json({
@@ -135,9 +134,8 @@ module.exports = {
             if (err) {
                 res.send(500, { err: err })
             }
-            res.redirect('/registation/listdata')
+            return res.json({ status: true, message: "Data update successfully" });
         })
-
     }
 };
 

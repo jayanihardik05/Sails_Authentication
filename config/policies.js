@@ -12,10 +12,9 @@ module.exports.policies = {
 
 
   RegistationController: {
-    // adddata: "auth",
-    // deletedata: "auth",
-    // editdata: "auth",
-    // updatedata: "auth"
+    adddata: "auth",
+    deletedata: "auth",
+    updatedata: "auth"
   }
 
   /***************************************************************************

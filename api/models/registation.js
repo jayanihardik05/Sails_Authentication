@@ -12,10 +12,10 @@ module.exports = {
     name: {
       type: 'string'
     },
-    Email: {
+    address: {
       type: 'string'
     },
-    phone: {
+    Phone: {
       type: 'string'
     },
     city: {

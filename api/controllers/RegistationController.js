@@ -19,7 +19,7 @@ module.exports = {
             return res.status(200).send({ message: "Email is exist" });
         else
             bcrypt.hash(
-                req.body.password && req.body.Confirmpassword,
+                req.body.password,
                 10,
                 (err, hash) => {
                     if (err) {

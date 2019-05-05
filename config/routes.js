@@ -6,6 +6,7 @@ module.exports.routes = {
   '/login': 'RegistationController.logindata',
   '/forgetpassword': 'RegistationController.forgetpassword',
   '/signup': 'RegistationController.signup',
+  '/forgetpassword/link/:id': 'ResetpasswordController.forgetpasswordlink',
 
   'GET /registation/listdata': 'RegistationController.listdata',
   'POST /registation/add': 'RegistationController.adddata',
@@ -14,5 +15,6 @@ module.exports.routes = {
   'GET /registation/delete/:id': 'RegistationController.deletedata',
   'GET /registation/editdata/:id': 'RegistationController.editdata',
   'POST /registation/updatadata/:id': 'RegistationController.updatedata',
+  'POST /forgetpassword/link': 'ResetpasswordController.updateForgetPassword',
   'POST /email': 'ResetpasswordController.emailSend',
 };

@@ -15,6 +15,6 @@ module.exports.routes = {
   'GET /registation/delete/:id': 'RegistationController.deletedata',
   'GET /registation/editdata/:id': 'RegistationController.editdata',
   'POST /registation/updatadata/:id': 'RegistationController.updatedata',
-  'POST /forgetpassword/link': 'ResetpasswordController.updateForgetPassword',
+  'POST /forgetpassword/link/:getId': 'ResetpasswordController.updateForgetPassword',
   'POST /email': 'ResetpasswordController.emailSend',
 };

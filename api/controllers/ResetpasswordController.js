@@ -3,10 +3,17 @@ const nodemailer = require("nodemailer");
 var bcrypt = require('bcryptjs');
 
 module.exports = {
+
     forgetpasswordlink: (req, res) => {
         return res.view('registation/forgetpasswordlink')
     },
-    updateForgetPassword: (req, res) => {
+
+    updateForgetPassword: async (req, res) => {
+        const getUser = await user.findOne({ forgetpasswordToken: req.params.getId });
+        console.log(getUser)
+        if (!getUser)
+            return res.status(200).send({ status: false, message: " Your Email is Expired go to Forget PassWord link" })
+
         bcrypt.hash(
             req.body.password,
             10,
@@ -17,7 +24,8 @@ module.exports = {
                     });
                 } else {
                     var data = {
-                        password: hash
+                        password: hash,
+                        forgetpasswordToken: Math.random().toString(36).replace('0.', '')
                     };
                     user.update({ _id: req.params.id }, data).exec((err, result) => {
                         if (err) {
@@ -31,14 +39,16 @@ module.exports = {
 
     },
 
-
-
     emailSend: async (req, res) => {
         const getUser = await user.findOne({ email: req.body.email });
         if (!getUser)
             return res.status(200).send({ status: false, message: "Email is Not Found" })
+        const data = {
+            forgetpasswordToken: Math.random().toString(36).replace('0.', '')
+        }
+        await user.updateOne({ email: req.body.email }, data)
         const userId = getUser.id;
-        const url = `${req.protocol}://${req.get('host')}/forgetpassword/link/${userId}`;
+        const url = `${req.protocol}://${req.get('host')}/forgetpassword/link/${data.forgetpasswordToken}`;
         let testAccount = await nodemailer.createTestAccount();
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",

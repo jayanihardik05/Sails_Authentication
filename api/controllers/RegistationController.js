@@ -92,7 +92,6 @@ module.exports = {
         })
     },
 
-
     listdata: async (req, res) => {
         registation.find().exec((err, result) => {
             if (err) {
@@ -111,6 +110,7 @@ module.exports = {
         })
 
     },
+
     editdata: (req, res) => {
         registation.findOne({ _id: req.params.id }).exec((err, result) => {
             if (err) {
@@ -120,6 +120,7 @@ module.exports = {
         })
 
     },
+
     deletedata: (req, res) => {
         registation.destroy({ id: req.params.id }).exec((err, result) => {
             if (err) {
@@ -129,6 +130,7 @@ module.exports = {
         })
 
     },
+
     updatedata: (req, res) => {
         registation.update({ _id: req.params.id }, req.body).exec((err, result) => {
             if (err) {
@@ -137,5 +139,6 @@ module.exports = {
             return res.json({ status: true, message: "Data update successfully" });
         })
     }
+    
 };
 

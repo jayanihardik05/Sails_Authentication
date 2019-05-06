@@ -20,14 +20,15 @@
     </div>
 
     <div>
-        <button class="btn waves-effect waves-light" style="background-color: #347737" id="submitLogin" type="submit">Submit
+        <button class="btn waves-effect waves-light" style="background-color: #347737" id="submitLogin"
+            type="submit">Submit
         </button>
     </div>
 </form>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
 <script>
@@ -39,23 +40,27 @@
 
         signup = function () {
             if (!$('#name').val()) {
-                return $.notify('Enter Name', { type: 'danger' });
+                return $.notify('Name is required', { type: 'danger' });
             }
             if (!$('#email').val()) {
-                return $.notify('Enter email', { type: 'danger' });
+                return $.notify('Email is required', { type: 'danger' });
             }
-
+            if (!validateEmailOnClick($('#email').val())) {
+                $.notify('Enter valid email address');
+                return;
+            }
             if (!$('#password').val()) {
-                return $.notify('Enter password', { type: 'danger' });
+                return $.notify('Password is required', { type: 'danger' });
             }
 
             if (!$('#Confirmpassword').val()) {
-                return $.notify('Enter Confirm password', { type: 'danger' });
+                return $.notify('Confirm password is required', { type: 'danger' });
             }
             if ($('#password').val() !== $('#Confirmpassword').val()) {
-                return $.notify('Passwords are not matching.', 'error');
+                return $.notify('Passwords do not match', 'error');
 
             }
+            $(".loader").show();
             $.ajax('/signup/add', {
                 method: 'POST',
                 contentType: 'application/json',
@@ -68,7 +73,13 @@
                 }),
                 success: function (result) {
                     if (result.ResponseStatus === 0) {
-                        window.location = '/'
+                        setTimeout(() => {
+                            $(".loader").hide();
+                        }, 1000);
+                        $.notify(result.message, "success");
+                        setTimeout(() => {
+                            window.location.href = "/"
+                        }, 3500);
                     } else {
                         $.notify(result.message);
                     }
@@ -76,6 +87,13 @@
                 },
 
             })
+        }
+
+
+        function validateEmailOnClick(email) {
+            // eslint-disable-next-line max-len
+            const re = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
         }
     })
 

@@ -6,6 +6,7 @@
  */
 var bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 module.exports = {
 
@@ -30,12 +31,31 @@ module.exports = {
                         var data = {
                             name: req.body.name,
                             email: req.body.email,
-                            password: hash
+                            password: hash,
+                            status: "panding"
                         };
                         user.create(data).then(results => {
-                            return res.status(200).json({
-                                ResponseStatus: 0,
-                                message: "SingUp Sucessfull"
+                            const url = `${req.protocol}://${req.get('host')}/forgetpassword/link`;
+                            let testAccount = nodemailer.createTestAccount();
+                            let transporter = nodemailer.createTransport({
+                                host: "smtp.gmail.com",
+                                port: 465,
+                                auth: {
+                                    user: 'techlession@gmail.com',
+                                    pass: 'Techlession@#123'
+                                }
+                            });
+                            let info = transporter.sendMail({
+                                to: req.body.email,
+                                subject: "Account Verify",
+                                html: "<b>Link is " + url + " </b>"
+                            })
+                            transporter.verify(function (error, success) {
+                                if (error) {
+                                    return res.status(200).send({ ResponseStatus: 1, message: "Email is Not Found" })
+                                } else {
+                                    return res.status(200).send({ ResponseStatus: 0, message: "sign up successful and Verify your Email First" })
+                                }
                             });
                         });
                     }
@@ -47,6 +67,8 @@ module.exports = {
         const getUser = await user.findOne({ email: req.body.email });
         if (!getUser)
             return res.status(200).send({ message: "Email is Not Found" })
+        if (getUser.status === "panding")
+            return res.status(200).send({ message: "Email is Not verify" })
         else
             bcrypt.compare(req.body.password, getUser.password, (err, result) => {
                 if (err) {
@@ -139,6 +161,6 @@ module.exports = {
             return res.json({ status: true, message: "Data update successfully" });
         })
     }
-    
+
 };
 

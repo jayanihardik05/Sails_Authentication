@@ -44,19 +44,20 @@
     function updatesubmit(event, id) {
         event.preventDefault();
         if (!$('#name').val()) {
-            return $.notify('Enter Name', { type: 'danger' });
+            return $.notify('Name is required', { type: 'danger' });
         }
         if (!$('#address').val()) {
-            return $.notify('Enter address', { type: 'danger' });
+            return $.notify('Address is required', { type: 'danger' });
         }
 
         if (!$('#Phone').val()) {
-            return $.notify('Enter Phone', { type: 'danger' });
+            return $.notify('Phone is required', { type: 'danger' });
         }
 
         if (!$('#city').val()) {
-            return $.notify('Enter city', { type: 'danger' });
+            return $.notify('City is required', { type: 'danger' });
         }
+        $(".loader").show();
         $.ajax(`/registation/updatadata/${id}`, {
             method: 'POST',
             contentType: 'application/json',
@@ -68,9 +69,10 @@
                 city: $('#city').val()
             }),
             success: function (result) {
-                console.log(result);
-                $.notify("update Sucesfull", "success");
+                // $.notify("update Sucesfull", "success");
+              
                 setTimeout(() => {
+                    $(".loader").hide();
                     window.location.href = ' /registation/listdata';
                 }, 1000);
             },

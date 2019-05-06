@@ -51,7 +51,7 @@
                         <%= item.city %>
                     </td>
                     <td>
-                            <a  class="btn btn-primary" href="/registation/editdata/<%= item.id %>">Edit</a>
+                        <a class="btn btn-primary" href="/registation/editdata/<%= item.id %>">Edit</a>
                         <button id="delete" class="btn btn-primary" style="background-color: #2630a6" onclick="Delete(`<%= item.id %>`)">Delete</button>
                     </td>
                 </tr>
@@ -92,20 +92,20 @@
 
         addregistation = function () {
             if (!$('#name').val()) {
-                return $.notify('Enter Name', { type: 'danger' });
+                return $.notify('Name is required', { type: 'danger' });
             }
             if (!$('#address').val()) {
-                return $.notify('Enter address', { type: 'danger' });
+                return $.notify('Address is required', { type: 'danger' });
             }
 
             if (!$('#Phone').val()) {
-                return $.notify('Enter Phone', { type: 'danger' });
+                return $.notify('Phone is required', { type: 'danger' });
             }
 
             if (!$('#city').val()) {
-                return $.notify('Enter city', { type: 'danger' });
+                return $.notify('City is required', { type: 'danger' });
             }
-
+            $(".loader").show();
             $.ajax('/registation/add', {
                 method: 'POST',
                 contentType: 'application/json',
@@ -118,27 +118,30 @@
                     city: $('#city').val()
                 }),
                 success: function (result) {
-                    $.notify("Add Sucessfull", "success");
+                    // $.notify("Add Sucessfull", "success");
                     setTimeout(() => {
                         location.reload();
+                        $(".loader").hide();
                     }, 1000);
                 },
 
-            })  
+            })
         }
 
     })
 
     function Delete(id) {
+        $(".loader").show();
         $.ajax(`/registation/delete/${id}`, {
             method: 'GET',
             contentType: 'application/json',
             processData: false,
             headers: setAuthenticationHeader(),
             success: function (result) {
-                $.notify("Delete Sucesfull", "success");
+                // $.notify("Delete Sucesfull", "success");
                 setTimeout(() => {
                     location.reload();
+                    $(".loader").hide();
                 }, 1000);
 
             },

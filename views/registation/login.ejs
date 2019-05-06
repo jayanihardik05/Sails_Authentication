@@ -37,12 +37,18 @@
         login = function () {
 
             if (!$('#email').val()) {
-                return $.notify('Enter email', { type: 'danger' });
+                return $.notify('Email is required', { type: 'danger' });
+            }
+
+            if (!validateEmailOnClick($('#email').val())) {
+                $.notify('Enter valid email addres');
+                return;
             }
 
             if (!$('#password').val()) {
-                return $.notify('Enter password', { type: 'danger' });
+                return $.notify('Password is required', { type: 'danger' });
             }
+            $(".loader").show();
 
             $.ajax('/login/add', {
                 method: 'POST',
@@ -54,20 +60,29 @@
                 }),
                 success: function (result) {
                     if (result.ResponseStatus === 0) {
-                        $.notify(result.message, "success");
-                       
+                        // $.notify(result.message, "success");
                         var token2 = `Bearer ${result.token}`;
                         localStorage.setItem("token", token2);
                         setTimeout(() => {
+                            $(".loader").hide();
                             window.location = '/registation/listdata'
-                        }, 1000);
+                        }, 1500);
                     } else {
                         $.notify(result.message, "error");
+                        setTimeout(() => {
+                        $(".loader").hide();
+                    }, 1500);
                     }
 
                 },
 
             })
+        }
+
+
+        function validateEmailOnClick(email) {
+            const re = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
         }
     })
 

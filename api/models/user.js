@@ -1,7 +1,5 @@
 module.exports = {
-
     attributes: {
-
         name: {
             type: 'string'
         },
@@ -11,7 +9,6 @@ module.exports = {
         password: {
             type: 'string'
         }
-
     },
     datastore: 'mongodb',
 };

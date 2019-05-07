@@ -32,10 +32,11 @@ module.exports = {
                             name: req.body.name,
                             email: req.body.email,
                             password: hash,
-                            status: "panding"
+                            status: "panding",
+                            verifyToken: Math.random().toString(36).replace('0.', '')
                         };
                         user.create(data).then(results => {
-                            const url = `${req.protocol}://${req.get('host')}/forgetpassword/link`;
+                            const url = `${req.protocol}://${req.get('host')}/verify/link/${data.verifyToken}`;
                             let testAccount = nodemailer.createTestAccount();
                             let transporter = nodemailer.createTransport({
                                 host: "smtp.gmail.com",
@@ -94,6 +95,14 @@ module.exports = {
                     message: "Enter valid Password "
                 });
             })
+    },
+
+    verifyAccount: async (req, res) => {
+        data = {
+            status: "veryfiy"
+        }
+        await user.updateOne({ verifyToken: req.params.id }, data)
+        return res.view('registation/verifyAccount')
     },
 
     logindata: (req, res) => {

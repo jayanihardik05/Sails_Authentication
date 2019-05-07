@@ -8,6 +8,7 @@ module.exports.routes = {
   '/signup': 'RegistationController.signup',
   '/forgetpassword/link/:id': 'ResetpasswordController.forgetpasswordlink',
 
+  'GET /verify/link/:id': 'RegistationController.verifyAccount',
   'GET /registation/listdata': 'RegistationController.listdata',
   'POST /registation/add': 'RegistationController.adddata',
   'POST /login/add': 'RegistationController.loginadd',

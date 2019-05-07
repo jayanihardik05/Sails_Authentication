@@ -82,6 +82,9 @@
                         }, 3500);
                     } else {
                         $.notify(result.message);
+                        setTimeout(() => {
+                            $(".loader").hide();
+                        }, 500);
                     }
 
                 },

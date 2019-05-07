@@ -60,7 +60,6 @@
                 }),
                 success: function (result) {
                     if (result.ResponseStatus === 0) {
-                        // $.notify(result.message, "success");
                         var token2 = `Bearer ${result.token}`;
                         localStorage.setItem("token", token2);
                         setTimeout(() => {
@@ -71,7 +70,7 @@
                         $.notify(result.message, "error");
                         setTimeout(() => {
                         $(".loader").hide();
-                    }, 1500);
+                    }, 100);
                     }
 
                 },

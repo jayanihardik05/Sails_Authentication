@@ -1,6 +1,8 @@
 "use strict";
 const nodemailer = require("nodemailer");
 var bcrypt = require('bcryptjs');
+var handlebars = require('handlebars');
+var fs = require('fs');
 
 module.exports = {
 
@@ -9,8 +11,8 @@ module.exports = {
     },
 
     updateForgetPassword: async (req, res) => {
+
         const getUser = await user.findOne({ forgetpasswordToken: req.params.getId });
-        console.log(getUser)
         if (!getUser)
             return res.status(200).send({ status: false, message: " Your Email is Expired go to Forget PassWord link" })
 
@@ -40,6 +42,17 @@ module.exports = {
     },
 
     emailSend: async (req, res) => {
+        var readHTMLFile = function (path, callback) {
+            fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
+                if (err) {
+                    throw err;
+                    callback(err);
+                }
+                else {
+                    callback(null, html);
+                }
+            });
+        };
         const getUser = await user.findOne({ email: req.body.email });
         if (!getUser)
             return res.status(200).send({ status: false, message: "Email is Not Found" })
@@ -58,10 +71,17 @@ module.exports = {
                 pass: 'Techlession@#123'
             }
         });
-        let info = await transporter.sendMail({
-            to: req.body.email,
-            subject: "Forget_Password",
-            html: "<b>Link is " + url + " </b>"
+        readHTMLFile(__dirname + '../../email/verify/forgetPassword.html', function (err, html) {
+            var template = handlebars.compile(html);
+            var replacements = {
+                url: url
+            };
+            var htmlToSend = template(replacements);
+            let info =  transporter.sendMail({
+                to: req.body.email,
+                subject: "Forget_Password",
+                html: htmlToSend
+            })
         })
         transporter.verify(function (error, success) {
             if (error) {
@@ -71,6 +91,5 @@ module.exports = {
             }
         });
     }
-
 }
 

@@ -7,6 +7,8 @@
 var bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+var handlebars = require('handlebars');
+var fs = require('fs');
 
 module.exports = {
 
@@ -15,6 +17,18 @@ module.exports = {
     },
 
     signupadd: async (req, res) => {
+        var readHTMLFile = function (path, callback) {
+            fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
+                if (err) {
+                    throw err;
+                    callback(err);
+                }
+                else {
+                    callback(null, html);
+                }
+            });
+        };
+
         const getUser = await user.findOne({ email: req.body.email });
         if (getUser)
             return res.status(200).send({ message: "Email is exist" });
@@ -46,11 +60,19 @@ module.exports = {
                                     pass: 'Techlession@#123'
                                 }
                             });
-                            let info = transporter.sendMail({
-                                to: req.body.email,
-                                subject: "Account Verify",
-                                html: "<b>Link is " + url + " </b>"
-                            })
+                            readHTMLFile(__dirname + '../../email/verify/veryfy.html', function (err, html) {
+                                var template = handlebars.compile(html);
+                                var replacements = {
+                                    url: url
+                                };
+                                var htmlToSend = template(replacements);
+                                let info = transporter.sendMail({
+                                    to: req.body.email,
+                                    subject: "Account Verify",
+                                    html: htmlToSend
+                                    // html: "<b>Link is " + url + " </b>"
+                                })
+                            });
                             transporter.verify(function (error, success) {
                                 if (error) {
                                     return res.status(200).send({ ResponseStatus: 1, message: "Email is Not Found" })

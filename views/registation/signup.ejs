@@ -76,10 +76,7 @@
                         setTimeout(() => {
                             $(".loader").hide();
                         }, 1000);
-                        $.notify(result.message, "success");
-                        setTimeout(() => {
-                            window.location.href = "/"
-                        }, 3500);
+                        window.location.href = "/"
                     } else {
                         $.notify(result.message);
                         setTimeout(() => {

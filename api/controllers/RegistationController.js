@@ -12,6 +12,19 @@ var fs = require('fs');
 
 module.exports = {
 
+    profile: (req, res) => {
+        return res.view('profile/profile')
+    },
+
+    profiledata: (req, res) => {
+        user.find({ _id: req.userData.id }).exec((err, result) => {
+            if (err) {
+                res.send(500, { err: err })
+            }
+            res.send(result)
+        })
+    },
+
     signup: (req, res) => {
         return res.view('registation/signup')
     },
@@ -145,12 +158,17 @@ module.exports = {
         })
     },
 
+    home: (req, res) => {
+
+        return res.view('registation/registation')
+    },
+
     listdata: async (req, res) => {
         registation.find().exec((err, result) => {
             if (err) {
                 res.send(500, { err: err })
             }
-            res.view('registation/registation', { registation: result })
+            res.send(result)
         })
     },
 
@@ -186,6 +204,15 @@ module.exports = {
 
     updatedata: (req, res) => {
         registation.update({ _id: req.params.id }, req.body).exec((err, result) => {
+            if (err) {
+                res.send(500, { err: err })
+            }
+            return res.json({ status: true, message: "Data update successfully" });
+        })
+    },
+
+    profileedit: (req, res) => {
+        user.update({ _id: req.params.id }, req.body).exec((err, result) => {
             if (err) {
                 res.send(500, { err: err })
             }

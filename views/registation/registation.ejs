@@ -1,11 +1,13 @@
 <div id="divregistation" style="display: none">
     <button type="text" class="btn waves-effect waves-light" id="logout" style="float: right ;
-    background-color: #b14138">Logout</button>
+    background-color: #a33d9a">Logout</button>
+    <a type="text" class="btn waves-effect waves-light" href="/profile" style="float: right ;
+    background-color: #275f79">Profile</a>
     <h2> All Registation</h2>
 
     <form>
         <div class="input-field col s12 l6">
-            <input type="text" id="name" class="validate" value="<%=registation.name %>">
+            <input type="text" id="name" class="validate">
             <label for="first_name"> Name</label>
         </div>
         <div class="input-field col s12 l6">
@@ -35,35 +37,17 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            <% registation.forEach(function(item){%>
-                <tr>
-                    <td>
-                        <%= item.name %>
-                    </td>
-                    <td>
-                        <%= item.address %>
-                    </td>
-                    <td>
-                        <%= item.Phone %>
-                    </td>
-                    <td>
-                        <%= item.city %>
-                    </td>
-                    <td>
-                        <a class="btn btn-primary" href="/registation/editdata/<%= item.id %>">Edit</a>
-                        <button id="delete" class="btn btn-primary" style="background-color: #2630a6" onclick="Delete(`<%= item.id %>`)">Delete</button>
-                    </td>
-                </tr>
-                <%}) %>
+        <tbody class="testimonial">
+
         </tbody>
     </table>
+
 </div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
 <script>
@@ -71,6 +55,20 @@
         const token = localStorage.getItem('token');
         return { 'Authorization': token }
     }
+    window.onload = function (e) {
+        $.ajax('/registation/listdata', {
+            method: 'GET',
+            contentType: 'application/json',
+            processData: false,
+            headers: setAuthenticationHeader(),
+            success: function (result) {
+                const data = result;
+             
+            },
+
+        })
+
+    };
     $(document).ready(function () {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -89,6 +87,7 @@
             event.preventDefault();
             addregistation();
         });
+
 
         addregistation = function () {
             if (!$('#name').val()) {

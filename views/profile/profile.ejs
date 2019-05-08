@@ -1,0 +1,115 @@
+<a class="btn waves-effect waves-light" href="/registation/home" style="float: right">Back</a>
+<h2> Your Profile </h2>
+
+<style>
+  body {
+    padding: 20px;
+  }
+
+  label {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1c87c9;
+  }
+
+  input {
+    width: 60%;
+    height: 78px;
+    padding: 41px 50px;
+    border: 1px solid #666;
+    background: #cce6ff;
+    color: #1c87c9;
+    font-size: 22px;
+  }
+</style>
+
+<form>
+  <label>Name : <span id="lblName"> </span></label><br>
+  <label>Email : <span id="lablEmail"></span></label><br>
+  <label>Address : <span id="lbladdress"> </span></label><br>
+  <label>PhonNo : <span id="lablphoneno"></span></label><br>
+  <label>Age : <span id="lblage"> </span></label><br>
+  <label>City : <span id="lablcity"></span></label><br>
+
+  <div class="input-field col s6 ">
+    <input type="text" id="address" class="validate">
+    <label for="last_name">Address </label>
+  </div>
+
+  <div class="input-field col s6 ">
+    <input type="text" id="PhonNo" class="validate">
+    <label for="last_name">PhonNo </label>
+  </div>
+
+  <div class="input-field col s6 ">
+    <input type="text" id="age" class="validate">
+    <label for="last_name">Age </label>
+  </div>
+  <div class="input-field col s6 ">
+    <input type="text" id="city" class="validate">
+    <label for="last_name">City </label>
+  </div>
+  <button class="btn waves-effect waves-light" id="submitdata">Submit</button>
+  <button class="btn waves-effect waves-light" id="submitdata">Edit Profile</button>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+
+<script>
+
+  function setAuthenticationHeader() {
+    const token = localStorage.getItem('token');
+    return { 'Authorization': token }
+  }
+
+  $(document).ready(function () {
+    const token = localStorage.getItem('token');
+    let id = null;
+    if (!token) {
+      window.location.href = '/';
+    } else {
+      $("#divregistation").show();
+    }
+
+    getProfileData();
+
+    function getProfileData() {
+      $.ajax(' /profile/data', {
+        method: 'GET',
+        contentType: 'application/json',
+        processData: false,
+        headers: setAuthenticationHeader(),
+        success: function (result) {
+          $("#lblName").html(result[0].name);
+          $("#lablEmail").html(result[0].email);
+          $("#lbladdress").html(result[0].Address);
+          $("#lablphoneno").html(result[0].PhonNo);
+          $("#lblage").html(result[0].Age);
+          $("#lablcity").html(result[0].City);
+          id = result[0].id;
+        },
+      })
+    }
+    $("#submitdata").click(function (event) {
+      event.preventDefault();
+      $.ajax(`/profile/edit/${id}`, {
+        method: "POST",
+        contentType: "application/json",
+        processData: false,
+        headers: setAuthenticationHeader(),
+        data: JSON.stringify({
+          Address: $('#address').val(),
+          PhonNo: $('#PhonNo').val(),
+          Age: $('#age').val(),
+          City: $('#city').val()
+        }),
+        success: function (result) {
+          $.notify("Add Sucessfull", "success");
+        }
+      })
+    })
+  })
+</script>

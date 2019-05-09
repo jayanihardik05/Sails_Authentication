@@ -2,6 +2,64 @@
 <h2> Your Profile </h2>
 
 <style>
+  .modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  button.close {
+    float: "right";
+    cursor: pointer;
+    background: 0 0;
+    border: 8;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    float: right;
+  }
+
+  .fade.in {
+    opacity: 1;
+  }
+
+  .modal .modal-content {
+    padding: 17px;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: #fafafa;
+    padding: 0;
+    max-height: 42%;
+    width: 55%;
+    margin: auto;
+    overflow-y: auto;
+    border-radius: 2px;
+    will-change: top, opacity;
+  }
+
+  .modal {
+    top: 0;
+    right: 0;
+    bottom: 234px;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+  }
+
+  .fade {
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    -o-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+  }
+
   body {
     padding: 20px;
   }
@@ -18,10 +76,64 @@
     padding: 41px 50px;
     border: 1px solid #666;
     background: #cce6ff;
-    color: #1c87c9;
     font-size: 22px;
   }
 </style>
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change Password</h4>
+      </div>
+
+      <div id="input-field">
+        <div class="input-field col s12 ">
+          <input type="password" id="oldpass" placeholder="Old Password" class="validate">
+        </div>
+        <div class="input-field col s12 ">
+          <input type="password" id="newpass" placeholder="New Password" class="validate">
+        </div>
+        <div class="input-field col s12 ">
+          <input type="password" id="confrimpass" placeholder="Confirm Password" class="validate">
+        </div>
+      </div>
+      <button class="btn waves-effect waves-light" id="changepassSubmit">Submit</button>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="modal fade" id="Editprofile" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Profile</h4>
+      </div>
+      <div id="input-field">
+        <div class="input-field col s6 ">
+          <input type="text" id="Address1" placeholder="Address" class="validate">
+        </div>
+        <div class="input-field col s6 ">
+          <input type="number" id="PhonNo1" placeholder="PhonNo " class="validate">
+        </div>
+        <div class="input-field col s6 ">
+          <input type="number" id="age1" placeholder="Age " class="validate">
+        </div>
+        <div class="input-field col s6 ">
+          <input type="text" id="city1" placeholder="City" class="validate">
+        </div>
+      </div>
+      <button class="btn waves-effect waves-light" id="updateprofile">Submit</button>
+    </div>
+
+  </div>
+</div>
+
 
 <form>
   <label>Name : <span id="lblName"> </span></label><br>
@@ -31,32 +143,41 @@
   <label>Age : <span id="lblage"> </span></label><br>
   <label>City : <span id="lablcity"></span></label><br>
 
-  <div class="input-field col s6 ">
-    <input type="text" id="address" class="validate">
-    <label for="last_name">Address </label>
-  </div>
 
-  <div class="input-field col s6 ">
-    <input type="text" id="PhonNo" class="validate">
-    <label for="last_name">PhonNo </label>
-  </div>
 
-  <div class="input-field col s6 ">
-    <input type="text" id="age" class="validate">
-    <label for="last_name">Age </label>
-  </div>
-  <div class="input-field col s6 ">
-    <input type="text" id="city" class="validate">
-    <label for="last_name">City </label>
+  <a href="#" data-toggle="modal" data-target="#myModal" style="font-size: 29px;
+  font-weight: 800;
+  color: #ff00ba;
+  font-family: Times New Roman, Times, serif">Change Password </a><br>
+
+
+  <div id="input-field">
+    <div class="input-field col s6 ">
+      <input type="text" id="address" placeholder="Address" class="validate">
+    </div>
+
+    <div class="input-field col s6 ">
+      <input type="number" id="PhonNo" placeholder="PhonNo" pattern="[0-9.]+">
+    </div>
+
+    <div class="input-field col s6 ">
+      <input type="number" id="age" placeholder="Age" class="validate">
+    </div>
+    <div class="input-field col s6 ">
+      <input type="text" id="city" placeholder="City" class="validate">
+    </div>
   </div>
   <button class="btn waves-effect waves-light" id="submitdata">Submit</button>
-  <button class="btn waves-effect waves-light" id="submitdata">Edit Profile</button>
+  <a href="#" data-toggle="modal" data-target="#Editprofile" class="btn waves-effect waves-light" id="submitdata">Edit
+    Profile</a>
 </form>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 <script>
 
@@ -68,17 +189,103 @@
   $(document).ready(function () {
     const token = localStorage.getItem('token');
     let id = null;
+    let Address = null, phoneNo = null, age = null, city = null;
     if (!token) {
       window.location.href = '/';
     } else {
       $("#divregistation").show();
     }
-
     getProfileData();
+
+    $("#changepassSubmit").click(function (event) {
+      event.preventDefault();
+      changepass();
+    });
+
+    $("#updateprofile").click(function (event) {
+      event.preventDefault();
+      updateProfile();
+    });
+
+    function updateProfile() {
+      $(".loader").show();
+      $.ajax(`/updateProfile/${id}`, {
+        method: 'POST',
+        async: true,
+        contentType: 'application/json',
+        processData: false,
+        headers: setAuthenticationHeader(),
+        data: JSON.stringify({
+          Address: $('#Address1').val(),
+          PhonNo: $('#PhonNo1').val(),
+          Age: $('#age1').val(),
+          City: $('#city1').val()
+        }),
+        success: function (result) {
+          $.notify(result.message, "success");
+          setTimeout(() => {
+            $(".loader").hide();
+            location.reload();
+          }, 500);
+        }
+      })
+    }
+
+
+    function changepass() {
+      if (!$('#oldpass').val()) {
+        return $.notify('Old Password is required', { type: 'danger' });
+      }
+
+      if (!$('#newpass').val()) {
+        return $.notify('New Password is required', { type: 'danger' });
+      }
+
+      if (!$('#confrimpass').val()) {
+        return $.notify('Confirm password is required', { type: 'danger' });
+      }
+      if ($('#newpass').val() !== $('#confrimpass').val()) {
+        return $.notify('Passwords do not match', 'error');
+      }
+
+      if ($('#newpass').val() === $('#oldpass').val()) {
+        return $.notify('Old Password and New Password is Same', 'error');
+      }
+      $(".loader").show();
+      $.ajax(`/changepassword/${id}`, {
+        method: 'POST',
+        async: true,
+        contentType: 'application/json',
+        processData: false,
+        headers: setAuthenticationHeader(),
+        data: JSON.stringify({
+          password: $('#newpass').val(),
+          oldpassword: $('#oldpass').val()
+        }),
+        success: function (result) {
+          if (result.ResponseStatus === 0) {
+            setTimeout(() => {
+              $(".loader").hide();
+              location.reload()
+            }, 1000);
+
+          } else {
+            $.notify(result.message, "error");
+            setTimeout(() => {
+              $(".loader").hide();
+              location.reload()
+            }, 500);
+          }
+
+        }
+
+      })
+    }
 
     function getProfileData() {
       $.ajax(' /profile/data', {
         method: 'GET',
+        async: true,
         contentType: 'application/json',
         processData: false,
         headers: setAuthenticationHeader(),
@@ -89,27 +296,62 @@
           $("#lablphoneno").html(result[0].PhonNo);
           $("#lblage").html(result[0].Age);
           $("#lablcity").html(result[0].City);
+          $("#Address1").val(result[0].Address);
+          $("#PhonNo1").val(result[0].PhonNo);
+          $("#age1").val(result[0].Age);
+          $("#city1").val(result[0].City);
+          setTimeout(() => {
+            $(".loader").hide();
+          }, 400);
           id = result[0].id;
+          if (result[0].Address) {
+            Address = result[0].Address;
+            $("#address").hide();
+          }
+          if (result[0].PhonNo) {
+            $("#PhonNo").hide();
+            phoneNo = result[0].PhonNo;
+          }
+
+          if (result[0].Age) {
+            $("#age").hide();
+            age = result[0].Age;
+          }
+
+          if (result[0].City) {
+            $("#city").hide();
+            city = result[0].City;
+          }
+          if (result[0].Address && result[0].PhonNo && result[0].Age && result[0].City)
+            $("#submitdata").hide()
         },
       })
     }
+
+    $(".loader").show();
     $("#submitdata").click(function (event) {
       event.preventDefault();
-      $.ajax(`/profile/edit/${id}`, {
+      $.ajax(`/profile/add/${id}`, {
         method: "POST",
         contentType: "application/json",
         processData: false,
         headers: setAuthenticationHeader(),
         data: JSON.stringify({
-          Address: $('#address').val(),
-          PhonNo: $('#PhonNo').val(),
-          Age: $('#age').val(),
-          City: $('#city').val()
+          Address: $('#address').val() ? $('#address').val() : Address,
+          PhonNo: $('#PhonNo').val() ? $('#PhonNo').val() : phoneNo,
+          Age: $('#age').val() ? $('#age').val() : age,
+          City: $('#city').val() ? $('#city').val() : city
         }),
         success: function (result) {
-          $.notify("Add Sucessfull", "success");
+          $.notify(result.message, "success");
+          setTimeout(() => {
+            $(".loader").hide();
+            location.reload();
+          }, 500);
         }
       })
     })
   })
+
+
 </script>

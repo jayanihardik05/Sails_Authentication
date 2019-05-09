@@ -22,5 +22,7 @@ module.exports.routes = {
   'POST /registation/updatadata/:id': 'RegistationController.updatedata',
   'POST /forgetpassword/link/:getId': 'ResetpasswordController.updateForgetPassword',
   'POST /email': 'ResetpasswordController.emailSend',
-  'POST /profile/edit/:id': 'RegistationController.profileedit',
+  'POST /profile/add/:id': 'RegistationController.profileedit',
+  'POST /changepassword/:id': 'ResetpasswordController.changepassword',
+  'POST /updateProfile/:id': 'RegistationController.updateProfile',
 };

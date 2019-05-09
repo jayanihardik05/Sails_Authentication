@@ -77,7 +77,7 @@ module.exports = {
                 url: url
             };
             var htmlToSend = template(replacements);
-            let info =  transporter.sendMail({
+            let info = transporter.sendMail({
                 to: req.body.email,
                 subject: "Forget_Password",
                 html: htmlToSend
@@ -90,6 +90,44 @@ module.exports = {
                 return res.status(200).send({ status: true, message: "Forget password link send in your Email" })
             }
         });
+    },
+
+    changepassword: async (req, res) => {
+        const getUser = await user.findOne({ _id: req.params.id });
+        if (!getUser)
+            return res.status(200).send({ status: false, message: "Old password is Wrong" })
+
+        bcrypt.compare(req.body.oldpassword, getUser.password, (err, result) => {
+            if (result) {
+                bcrypt.hash(
+                    req.body.password,
+                    10,
+                    (err, hash) => {
+                        if (err) {
+                            return res.status(200).json({
+                                message: "Not found"
+                            });
+                        } else {
+                            var data = {
+                                password: hash,
+                            };
+                            user.update({ _id: req.params.id }, data).exec((err, result) => {
+                                if (err) {
+                                    return res.send(500, { err: err })
+                                } else {
+
+                                    return res.json({ ResponseStatus: 0, message: "Password update successfully" });
+                                }
+
+                            })
+                        }
+                    }
+                );
+            }
+            else {
+                return res.status(200).json({ message: "Password not Found  " });
+            }
+        })
     }
 }
 

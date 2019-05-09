@@ -212,11 +212,20 @@ module.exports = {
     },
 
     profileedit: (req, res) => {
-        user.update({ _id: req.params.id }, req.body).exec((err, result) => {
+        user.updateOne({ _id: req.params.id }, req.body).exec((err, result) => {
             if (err) {
                 res.send(500, { err: err })
             }
-            return res.json({ status: true, message: "Data update successfully" });
+            return res.json({ status: true, message: "Data ADD successfully" });
+        })
+    },
+
+    updateProfile: (req, res) => {
+        user.updateOne({ _id: req.params.id }, req.body).exec((err, result) => {
+            if (err) {
+                res.send(500, { err: err })
+            }
+            return res.json({ status: true, message: "Data Update successfully" });
         })
     }
 

@@ -207,6 +207,49 @@
       updateProfile();
     });
 
+    function getProfileData() {
+      $.ajax(' /profile/data', {
+        method: 'GET',
+        async: true,
+        contentType: 'application/json',
+        processData: false,
+        headers: setAuthenticationHeader(),
+        success: function (result) {
+          $("#lblName").html(result[0].name);
+          $("#lablEmail").html(result[0].email);
+          $("#lbladdress").html(result[0].Address);
+          $("#lablphoneno").html(result[0].PhonNo);
+          $("#lblage").html(result[0].Age);
+          $("#lablcity").html(result[0].City);
+          $("#Address1").val(result[0].Address);
+          $("#PhonNo1").val(result[0].PhonNo);
+          $("#age1").val(result[0].Age);
+          $("#city1").val(result[0].City);
+          id = result[0].id;
+          if (result[0].Address) {
+            Address = result[0].Address;
+            $("#address").hide();
+          }
+          if (result[0].PhonNo) {
+            $("#PhonNo").hide();
+            phoneNo = result[0].PhonNo;
+          }
+
+          if (result[0].Age) {
+            $("#age").hide();
+            age = result[0].Age;
+          }
+
+          if (result[0].City) {
+            $("#city").hide();
+            city = result[0].City;
+          }
+          if (result[0].Address && result[0].PhonNo && result[0].Age && result[0].City)
+            $("#submitdata").hide()
+        },
+      })
+    }
+
     function updateProfile() {
       $(".loader").show();
       $.ajax(`/updateProfile/${id}`, {
@@ -226,7 +269,7 @@
           setTimeout(() => {
             $(".loader").hide();
             location.reload();
-          }, 500);
+          }, 1000);
         }
       })
     }
@@ -264,17 +307,18 @@
         }),
         success: function (result) {
           if (result.ResponseStatus === 0) {
+            $.notify(result.message, "success");
             setTimeout(() => {
               $(".loader").hide();
               location.reload()
-            }, 1000);
+            }, 1500);
 
           } else {
             $.notify(result.message, "error");
             setTimeout(() => {
               $(".loader").hide();
               location.reload()
-            }, 500);
+            }, 1500);
           }
 
         }
@@ -282,55 +326,11 @@
       })
     }
 
-    function getProfileData() {
-      $.ajax(' /profile/data', {
-        method: 'GET',
-        async: true,
-        contentType: 'application/json',
-        processData: false,
-        headers: setAuthenticationHeader(),
-        success: function (result) {
-          $("#lblName").html(result[0].name);
-          $("#lablEmail").html(result[0].email);
-          $("#lbladdress").html(result[0].Address);
-          $("#lablphoneno").html(result[0].PhonNo);
-          $("#lblage").html(result[0].Age);
-          $("#lablcity").html(result[0].City);
-          $("#Address1").val(result[0].Address);
-          $("#PhonNo1").val(result[0].PhonNo);
-          $("#age1").val(result[0].Age);
-          $("#city1").val(result[0].City);
-          setTimeout(() => {
-            $(".loader").hide();
-          }, 400);
-          id = result[0].id;
-          if (result[0].Address) {
-            Address = result[0].Address;
-            $("#address").hide();
-          }
-          if (result[0].PhonNo) {
-            $("#PhonNo").hide();
-            phoneNo = result[0].PhonNo;
-          }
 
-          if (result[0].Age) {
-            $("#age").hide();
-            age = result[0].Age;
-          }
 
-          if (result[0].City) {
-            $("#city").hide();
-            city = result[0].City;
-          }
-          if (result[0].Address && result[0].PhonNo && result[0].Age && result[0].City)
-            $("#submitdata").hide()
-        },
-      })
-    }
-
-    $(".loader").show();
     $("#submitdata").click(function (event) {
       event.preventDefault();
+      $(".loader").show();
       $.ajax(`/profile/add/${id}`, {
         method: "POST",
         contentType: "application/json",
@@ -347,7 +347,7 @@
           setTimeout(() => {
             $(".loader").hide();
             location.reload();
-          }, 500);
+          }, 1000);
         }
       })
     })

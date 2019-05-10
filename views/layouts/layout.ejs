@@ -8,10 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <%/* If you want to discourage search engines from indexing this site, uncomment the following line: */%>
-    <%/* <meta name="robots" content="noindex"> */%>
+  <%/* <meta name="robots" content="noindex"> */%>
 
 
-      <!--
+  <!--
         Stylesheets and Preprocessors
         ==============================
 
@@ -31,35 +31,37 @@
             + Import stylesheets from other directories
             + Use a different or additional preprocessor, like SASS, SCSS or Stylus
     -->
-    <style>
-        .loader {
-          position: fixed;
-          left: 0px;
-          top: 0px;
-          width: 100%;
-          height: 100%;
-          z-index: 9999;
-          display: none;
-          background: url('//media.giphy.com/media/swhRkVYLJDrCE/giphy.gif') 50% 50% no-repeat rgb(249, 249, 249);
-        }
-      </style>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-      <link rel="stylesheet" href="/styles/importer.css">
-     
+  <style>
+    .loader {
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 95%;
+      height: 74%;
+      opacity: 0.6;
+      z-index: 9999;
+      display: none;
+      background: url('https://loading.io/spinners/microsoft/index.rotating-balls-spinner.svg') 50% 50% no-repeat rgb(249, 249, 249);
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="/styles/importer.css">
+
 
 </head>
 
 <body>
-  <div class="container" onload="loadingAjax('myDiv')">
-    <div class="row">
-      <div class="loader" >
 
-      </div>
+  <div class="container" onload="loadingAjax('myDiv')">
+    <div class="loader">
+    </div>
+    <div class="row">
+
       <%- body %>
+
 
     </div>
   </div>
-
 
 
   <!--
@@ -84,7 +86,7 @@
     -->
 
   <!--TEMPLATES-->
-  
+
   <!--TEMPLATES END-->
 
 
@@ -126,11 +128,11 @@
           + Use a different preprocessor, like TypeScript
 
     -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src=" https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
   <!--SCRIPTS-->

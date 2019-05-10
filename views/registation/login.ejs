@@ -70,7 +70,10 @@
                         $.notify(result.message, "error");
                         setTimeout(() => {
                             $(".loader").hide();
-                        }, 100);
+                            $(".loader").hide();
+                        }, 1000);
+
+
                     }
 
                 },

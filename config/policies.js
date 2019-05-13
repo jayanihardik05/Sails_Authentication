@@ -16,7 +16,12 @@ module.exports.policies = {
     adddata: "auth",
     deletedata: "auth",
     updatedata: "auth",
-    profiledata: "auth"
+    profiledata: "auth",
+    updateProfile: "auth",
+    profileedit: "auth"
+  },
+  ResetpasswordController: {
+    changepassword: "auth",
   }
 
   /***************************************************************************

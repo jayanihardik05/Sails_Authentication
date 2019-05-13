@@ -63,7 +63,7 @@
             headers: setAuthenticationHeader(),
             success: function (result) {
                 const data = result;
-             
+
             },
 
         })
@@ -117,11 +117,14 @@
                     city: $('#city').val()
                 }),
                 success: function (result) {
-                    // $.notify("Add Sucessfull", "success");
                     setTimeout(() => {
                         location.reload();
+                        $.notify("Add Sucessfull", "success");
                         $(".loader").hide();
-                    }, 1000);
+                    }, 800);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2500);
                 },
 
             })

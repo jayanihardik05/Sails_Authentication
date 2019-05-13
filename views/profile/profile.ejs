@@ -265,11 +265,13 @@
           City: $('#city1').val()
         }),
         success: function (result) {
-          $.notify(result.message, "success");
           setTimeout(() => {
             $(".loader").hide();
+            $.notify(result.message, "success");
+          }, 800);
+          setTimeout(() => {
             location.reload();
-          }, 1000);
+          }, 2500);
         }
       })
     }
@@ -307,18 +309,24 @@
         }),
         success: function (result) {
           if (result.ResponseStatus === 0) {
-            $.notify(result.message, "success");
             setTimeout(() => {
               $(".loader").hide();
               location.reload()
-            }, 1500);
+              $.notify(result.message, "success");
+            }, 800);
+            setTimeout(() => {
+              location.reload()
+            }, 2200);
 
           } else {
-            $.notify(result.message, "error");
             setTimeout(() => {
               $(".loader").hide();
               location.reload()
-            }, 1500);
+              $.notify(result.message, "error");
+            }, 800);
+            setTimeout(() => {
+              location.reload()
+            }, 2000);
           }
 
         }
@@ -346,8 +354,11 @@
           $.notify(result.message, "success");
           setTimeout(() => {
             $(".loader").hide();
-            location.reload();
+
           }, 1000);
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
         }
       })
     })

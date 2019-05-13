@@ -1,4 +1,4 @@
-<a class="btn waves-effect waves-light" href="/" style="float: right">Back to Login</a>
+<a class="previous" href="/" style="float: right">Back to Login</a>
 <h2> Sign UP</h2>
 
 <form>
@@ -75,13 +75,17 @@
                     if (result.ResponseStatus === 0) {
                         setTimeout(() => {
                             $(".loader").hide();
-                        }, 1000);
-                        window.location.href = "/"
+                            $.notify(result.message, "success");
+                        }, 800);
+                        setTimeout(() => {
+                            window.location.href = "/"
+                        }, 2500);
+
                     } else {
                         $.notify(result.message);
                         setTimeout(() => {
                             $(".loader").hide();
-                        }, 500);
+                        }, 1000);
                     }
 
                 },

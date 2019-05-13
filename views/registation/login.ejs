@@ -1,4 +1,4 @@
-<a type="text" class="btn waves-effect waves-light" href="/signup" style="float: right">Signup</a>
+<!-- <a type="text" class="btn waves-effect waves-light" href="/signup" style="float: right">Signup</a> -->
 <h2> Sign In</h2>
 <form>
     <div class="input-field col s12 ">
@@ -12,6 +12,9 @@
     <div>
         <button class="btn waves-effect waves-light" id="login" style="background-color: #347737" type="submit">Submit
         </button>
+
+        <a type="text" class="btn waves-effect waves-light" href="/signup" >Signup</a>
+
     </div>
 </form>
 
@@ -67,10 +70,9 @@
                             window.location = '/registation/home'
                         }, 1000);
                     } else {
-                        $.notify(result.message, "error");
                         setTimeout(() => {
                             $(".loader").hide();
-                            $(".loader").hide();
+                            $.notify(result.message, "error");
                         }, 1000);
 
 

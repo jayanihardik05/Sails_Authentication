@@ -93,6 +93,15 @@ module.exports = {
     },
 
     changepassword: async (req, res) => {
+        var saveData = ` Titile : API_Request_ChangePassWord || Id: ${req.params.id} || 
+        Date: ${new Date()}\n\n`
+        fs.appendFile(".tmp/req.txt", saveData, function (err) { })
+        var data = {
+            Titile: "API_Request_ChangePassWord",
+            Id: req.userData.id,
+            Date: new Date()
+        }
+        logtable.create(data).exec((err, result) => { })
         const getUser = await user.findOne({ _id: req.params.id });
         if (!getUser)
             return res.status(200).send({ status: false, message: "Old password is Wrong" })
@@ -115,7 +124,9 @@ module.exports = {
                                 if (err) {
                                     return res.send(500, { err: err })
                                 } else {
-
+                                    var saveData = ` Titile : API_Responce_ChangePassWord || Status: true || Message: Password update successfully || Id: ${req.params.id} || 
+                                    Date: ${new Date()}\n\n`
+                                    fs.appendFile(".tmp/req.txt", saveData, function (err) { })
                                     return res.json({ ResponseStatus: 0, message: "Password update successfully" });
                                 }
 
@@ -125,6 +136,9 @@ module.exports = {
                 );
             }
             else {
+                var saveData = ` Titile : API_Responce_ChangePassWord || Status: false || Message: Password not found || Id: ${req.params.id} || 
+                Date: ${new Date()}\n\n`
+                fs.appendFile(".tmp/req.txt", saveData, function (err) { })
                 return res.status(200).json({ message: "Password not Found  " });
             }
         })

@@ -37,7 +37,7 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody class="testimonial">
+        <tbody id="testimonial">
 
         </tbody>
     </table>
@@ -62,8 +62,17 @@
             processData: false,
             headers: setAuthenticationHeader(),
             success: function (result) {
-                const data = result;
-
+                let html = '';
+                $.each(result, function (index, value) {
+                    html += '<tr>';
+                    html += `<td> ${value.name} </td>`;
+                    html += `<td> ${value.address} </td>`;
+                    html += `<td> ${value.Phone} </td>`;
+                    html += `<td> ${value.city} </td>`;
+                    html += `<td>  <a class="btn btn-primary" style="background-color: #4b26a6" href="/registation/editdata/${value.id}">Edit</a> `;
+                    html += "<button id='delete' class='btn btn-primary' style='background-color: #2630a6' onClick=Delete(\"" + value.id + '")>Delete</button>';
+                    $('#testimonial').html(html);
+                });
             },
 
         })
@@ -133,6 +142,7 @@
     })
 
     function Delete(id) {
+        console.log(id)
         $(".loader").show();
         $.ajax(`/registation/delete/${id}`, {
             method: 'GET',
@@ -140,11 +150,13 @@
             processData: false,
             headers: setAuthenticationHeader(),
             success: function (result) {
-                // $.notify("Delete Sucesfull", "success");
+                setTimeout(() => {
+                    $(".loader").hide();
+                    $.notify("Delete Sucesfull", "success");
+                }, 1000);
                 setTimeout(() => {
                     location.reload();
-                    $(".loader").hide();
-                }, 1000);
+                }, 2000);
 
             },
 

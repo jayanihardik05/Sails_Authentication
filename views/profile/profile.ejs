@@ -321,12 +321,11 @@
           } else {
             setTimeout(() => {
               $(".loader").hide();
-              location.reload()
               $.notify(result.message, "error");
             }, 800);
             setTimeout(() => {
               location.reload()
-            }, 2000);
+            }, 2500);
           }
 
         }

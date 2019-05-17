@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
-  console.log(req.options.action)
-  
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decord = jwt.verify(token, 'SECRET_KEY');

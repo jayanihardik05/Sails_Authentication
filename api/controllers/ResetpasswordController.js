@@ -11,7 +11,15 @@ module.exports = {
     },
 
     updateForgetPassword: async (req, res) => {
-
+        var saveData = ` Titile : API_Request_updateForgetPassword || Id: ${req.params.getId} || 
+        Date: ${new Date()}\n\n`
+        fs.appendFile(".tmp/req.txt", saveData, function (err) { })
+        var data = {
+            Titile: "API_Request_updateForgetPassword",
+            Id: req.userData.getId,
+            Date: new Date()
+        }
+        logtable.create(data).exec((err, result) => { })
         const getUser = await user.findOne({ forgetpasswordToken: req.params.getId });
         if (!getUser)
             return res.status(200).send({ status: false, message: " Your Email is Expired go to Forget PassWord link" })
@@ -21,6 +29,9 @@ module.exports = {
             10,
             (err, hash) => {
                 if (err) {
+                    var saveData = ` Titile : API_Request_updateForgetPassword || status: false || message: Not found  || Id: ${req.params.getId} || 
+                    Date: ${new Date()}\n\n`
+                    fs.appendFile(".tmp/req.txt", saveData, function (err) { })
                     return res.status(200).json({
                         message: "Not found"
                     });
@@ -33,6 +44,9 @@ module.exports = {
                         if (err) {
                             res.send(500, { err: err })
                         } else { }
+                        var saveData = ` Titile : API_Request_updateForgetPassword || status: true || message:Password update successfully  || Id: ${req.params.getId} || 
+                        Date: ${new Date()}\n\n`
+                        fs.appendFile(".tmp/req.txt", saveData, function (err) { })
                         return res.json({ status: true, message: "Password update successfully" });
                     })
                 }

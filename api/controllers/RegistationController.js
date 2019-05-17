@@ -208,10 +208,14 @@ module.exports = {
     },
 
     adddata: (req, res) => {
+        var saveData = ` Titile : API_Reqest_adddata || Address: ${req.body.name} || PhoneNo: ${req.body.address} || Age: ${req.body.Phone} || City: ${req.body.city} || Date: ${new Date()}\n\n`
+        fs.appendFile(".tmp/req.txt", saveData, function (err) { })
         registation.create(req.body).exec((err, result) => {
             if (err) {
                 res.send(500, { err: err })
             }
+            var saveData = ` Titile : API_Responce_adddata || status: true || message: "Data Add successfully || Address: ${req.body.name} || PhoneNo: ${req.body.address} || Age: ${req.body.Phone} || City: ${req.body.city} || Date: ${new Date()}\n\n`
+            fs.appendFile(".tmp/req.txt", saveData, function (err) { })
             res.redirect('/registation/listdata')
         })
 
@@ -228,20 +232,28 @@ module.exports = {
     },
 
     deletedata: (req, res) => {
+        var saveData = ` Titile : API_Reqest_deletedata || id: ${req.params.id}  || Date: ${new Date()}\n\n`
+        fs.appendFile(".tmp/req.txt", saveData, function (err) { })
         registation.destroy({ id: req.params.id }).exec((err, result) => {
             if (err) {
                 res.send(500, { err: err })
             }
+            var saveData = ` Titile : API_Responce_deletedata|| status: true || message: " Delete successfully || id: ${req.params.id}  || Date: ${new Date()}\n\n`
+            fs.appendFile(".tmp/req.txt", saveData, function (err) { })
             res.redirect('/registation/listdata')
         })
 
     },
 
     updatedata: (req, res) => {
+        var saveData = ` Titile : API_Reqest_updatedata || status: true || message: " update successfully || id: ${req.params.id}  || Date: ${new Date()}\n\n`
+            fs.appendFile(".tmp/req.txt", saveData, function (err) { })
         registation.update({ _id: req.params.id }, req.body).exec((err, result) => {
             if (err) {
                 res.send(500, { err: err })
             }
+            var saveData = ` Titile : API_Responce_updatedata || status: true || message: " update successfully || id: ${req.params.id}  || Date: ${new Date()}\n\n`
+            fs.appendFile(".tmp/req.txt", saveData, function (err) { })
             return res.json({ status: true, message: "Data update successfully" });
         })
     },
